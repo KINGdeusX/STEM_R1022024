@@ -1,6 +1,15 @@
 #include <Arduino.h>
 #include <DRV8825.h>
 
+#define STEPPER_0_D 5
+#define STEPPER_0_S 4
+#define STEPPER_1_D 0
+#define STEPPER_1_S 2
+#define STEPPER_2_D 14
+#define STEPPER_2_S 12
+#define STEPPER_3_D 13
+#define STEPPER_3_S 15
+
 // setDirection
 // DRV8825_CLOCK_WISE         = 0;  //  LOW
 // DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
@@ -15,15 +24,15 @@ int stppr_trash_puller = 400; // Trash net puller
 void setup() {
 	// Code Here
 	Serial.begin(115200);
-	stepper1.begin(5, 4);
-	// stepper2.begin(5, 4);
-	// stepper3.begin(5, 4);
-	// stepper4.begin(5, 4);
+	stepper1.begin(STEPPER_0_D, STEPPER_0_S);
+	stepper2.begin(STEPPER_1_D, STEPPER_1_S);
+	stepper3.begin(STEPPER_2_D, STEPPER_2_S);
+	stepper4.begin(STEPPER_3_D, STEPPER_3_S);
 }
 
-void wingL(const boolean direction) {
+void wingL(const boolean direction, int steps) {
   	stepper1.setDirection(direction); // Direction
-	for(int i = 0; i <= stppr_wingL_num_steps; i++){
+	for(int i = 0; i <= steps; i++){
 		stepper1.step(); // Execute Step
 		delay(stepper_internal_delay); 
 	}
@@ -33,6 +42,8 @@ void wingL(const boolean direction) {
 // void Puller() {}
  
 void loop() {
-	wingL(0);
-	delay(10000);
+	wingL(0, stppr_wingL_num_steps);
+	delay(5000);
+	wingL(1, 500);
+	delay(5000);
 }
