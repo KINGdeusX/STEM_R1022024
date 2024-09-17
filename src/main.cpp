@@ -9,6 +9,8 @@
 #define STEPPER_2_S 12
 #define STEPPER_3_D 13
 #define STEPPER_3_S 15
+#define laser1 10
+#define sensor1 9
 
 // setDirection
 // DRV8825_CLOCK_WISE         = 0;  //  LOW
@@ -42,8 +44,14 @@ void wingL(const boolean direction, int steps) {
 // void Puller() {}
  
 void loop() {
-	wingL(0, stppr_wingL_num_steps);
-	delay(5000);
-	wingL(1, 500);
-	delay(5000);
+	//MOD
+	digitalWrite(laser1, HIGH);
+	bool value = digitalRead(sensor1);
+
+	if (value) {
+		Serial.println("Laser Detected");
+	}
+	else {
+		Serial.println("NO Laser");
+	}
 }

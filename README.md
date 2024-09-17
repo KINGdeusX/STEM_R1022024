@@ -37,3 +37,5 @@ ESP8266 Based Multi operated sequential Canal Trash Extractor
 | D6 | 12 | (STEPPER_2) - S |
 | D7 | 13 | (STEPPER_3) - D |
 | D8 | 15 | (STEPPER_3) - S |
+| SD3 | 10 | laser1 |
+| SD2 | 9 | sensor1 |
