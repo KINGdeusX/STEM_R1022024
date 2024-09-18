@@ -62,14 +62,10 @@ ESP8266 Based Multi operated sequential Canal Trash Extractor
 
 ## UPDATE NOTES
 
-<span style="margin: 5px; padding: 10px; background-color: gold; color: white; max-width: 60px;">
-09172024
-</span>
+<span style="margin: 5px; padding: 10px; background-color: gold; color: white; max-width: 60px;">**09172024**</span>
 
 Nema 17 4500g Stepper motor and along its driver DRV8825 module may experience heating during long operations. But, this is considered normal. Would advice better cooling options
 
-<span style="margin: 5px; padding: 10px; background-color: gold; color: white; max-width: 60px;">
-09182024
-</span>
+<span style="margin: 5px; padding: 10px; background-color: gold; color: white; max-width: 60px;">**09182024**</span>
 
 On the documentations and diagrams it shows that the power supply Step-Down Converter was used is LM2595, But the one used is XL4015, Whats the difference? On paper XL4015 should deliver the needed power for all the devices. LM2595 can supply 3A at 150KHz While the XL4015 can deliver 5A at 180KHz [Refferences](https://www.reddit.com/r/AskElectronics/comments/u7nzyt/lm2596_vs_xl4015_demonstrably_different_one/). Considering The Nema 17 Stepper specified it can draw 1.2A per step, mentioned on the Nema 17 [Datasheet](https://grobotronics.com/stepper-motor-42byghw804.html?sl=en&srsltid=AfmBOoob1S9VRoTaBIgixzCNw4r2lPHLdatZdNhg1EAL_pg9pJvKSeLj). Testing the current inventory.
