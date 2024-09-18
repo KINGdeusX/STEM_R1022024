@@ -2,7 +2,12 @@
 
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 
-ESP8266 Based Multi operated sequential Canal Trash Extractor
+ESP8266 Based Multi operated sequential Canal Trash Extractor. Functions in 2 operation modes, Manual and Automatic.
+* Automatic Mode - waits for the laser trigger to detect a certain level of trash in the canal. once detected (laser light obstructed) the system will begine squence of actions to raise or lower the trash extractor and collect the waste in the canal.
+* Manual - the laser trigger will be disabled in this state and with the help of the web application GUI built in to the ESP8266 allows the actions of the rig to be controlled manually.
+
+Written in C++ developed with PlatformIO.
+Code can be viewed in [Here](./src/main.cpp)
 
 ### Hardwares
 
