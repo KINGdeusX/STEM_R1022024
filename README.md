@@ -15,11 +15,12 @@ ESP8266 Based Multi operated sequential Canal Trash Extractor
 **Stepper Controller**: DRV8825
 
 > * Keynotes :
-> \| Pin \| Designation \|
-> \|:\-\|:\-\|
-> \| E \| Enable \|
-> \| S \| Step \|
-> \| D \| Direction \|
+> 
+> | Pin | Designation |
+> |:-|:-|
+> | E | Enable |
+> | S | Step |
+> | D | Direction |
 > 
 > * Input Voltage: 9v
 > * Input Current: 1.2A
@@ -38,6 +39,7 @@ ESP8266 Based Multi operated sequential Canal Trash Extractor
 ### Microcontroller
 
 **REFERENCE**
+
 ![ESP8266 Pinout](https://lastminuteengineers.com/wp-content/uploads/iot/ESP8266-Pinout-NodeMCU.png)
 
 **ESP8266 PIN DESIGNATORS**
