@@ -1,5 +1,6 @@
 # STEM\_R1022024
 
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ESP8266 Based Multi operated sequential Canal Trash Extractor
 
 ### Hardwares
@@ -14,8 +15,6 @@ ESP8266 Based Multi operated sequential Canal Trash Extractor
 
 **Stepper Controller**: DRV8825
 
-> * Keynotes :
-> 
 > | Pin | Designation |
 > |:-|:-|
 > | E | Enable |
