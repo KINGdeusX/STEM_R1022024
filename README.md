@@ -9,7 +9,26 @@ ESP8266 Based Multi operated sequential Canal Trash Extractor. Functions in 2 op
 Written in C++ developed with PlatformIO.
 Code can be viewed in [Here](./src/main.cpp)
 
-### Hardwares
+## DOWNLOAD PROJECT
+**REQUIREMENTS**
+* [VS-Code](https://code.visualstudio.com/download)
+* [PlatfromIO](https://platformio.org/install/ide?install=vscode)
+* [Git](https://git-scm.com/downloads)
+* bash / powershell
+
+1. Open VS-Code then press `ctrl` + `~` on your keyboard
+2. Enter the following
+```
+cd ./Desktop && mkdir EcoCanal && cd EcoCanal && git clone https://github.com/KINGdeusX/STEM_R1022024.git
+```
+This will automatically create the project files along its dependencies
+
+3. Make sure your PlatformIO Extention is installed before proceding. Click on the PlatformIO icon in the lefthand side of VS-code
+4. Select Folder then navigate over to the folder where you saved the project in this case its in the desktop
+5. wait for everything to finish initializing the project.
+6. On the directory panel in the left hand side of VS-code navigate over to `src` and click main.cpp this is the Arduino based source code.
+
+## HARDWARES
 
 **Stepper Motor**: Nema 17 4500g
 
@@ -41,7 +60,7 @@ Code can be viewed in [Here](./src/main.cpp)
 > * Input Voltage : 5v
 > * [Datasheet](https://datasheet4u.com/datasheet-pdf/AZ-Delivery/KY-008/pdf.php?id=1415012) pdf
 
-### Microcontroller
+## MICROCONTROLLER
 
 **REFERENCE**
 
@@ -61,7 +80,7 @@ Code can be viewed in [Here](./src/main.cpp)
 | D8 | 15 | (STEPPER\_3) - S |
 | D0 | 16 | laser\_sensor |
 
-### WIRING DIAGRAM
+## WIRING DIAGRAM
 
 ![wire.jpg](.media/img_0.jpeg)
 
