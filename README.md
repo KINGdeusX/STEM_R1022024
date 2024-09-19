@@ -54,6 +54,7 @@ This will automatically create the project files along its dependencies
 
 > * Input Voltage: 5v
 > * [Info](https://forum.arduino.cc/t/documents-about-laser-sensor-ds18b20/1090450) Arduino Post
+> * keynotes : if the sensor detects a laser it will return a value of 0 if it does not detect a laser it will return a value of 1
 
 **Laser Emitter**: KY-008
 
