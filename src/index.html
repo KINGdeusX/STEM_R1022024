@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EcoCanal</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      h1 {
+        font-size: 24px;
+        background-color: #4CAF50;
+        width: -webkit-fill-available;
+        color: #ffffff;
+        height: auto;
+        padding: 20px;
+      }
+      footer {
+        background-color: #4CAF50;
+        width: -webkit-fill-available;
+        color: #ffffff;
+        height: auto;
+        padding: 20px;
+      }
+      #container {
+        padding: 100px 0px 100px 0px;
+      }
+      .btn {
+        padding: 15px 25px;
+        margin: 10px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+      }
+      .manual {
+        background-color: #4CAF50; /* Green */
+      }
+      .automatic {
+        background-color: #f44336; /* Red */
+      }
+      .raise-lower {
+        background-color: #008CBA; /* Blue */
+      }
+      .btn:hover {
+        opacity: 0.8;
+      }
+      /* Responsive design */
+      @media screen and (max-width: 600px) {
+        .btn {
+          padding: 10px 20px;
+          font-size: 16px;
+        }
+      }
+    </style>
+    <script>
+      function setMode(modeType) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/setMode?mode=" + modeType, true);
+        xhttp.send();
+        setTimeout(function() {
+          location.reload();
+        }, 500); // Reload page after 500ms to update UI
+      }
+
+      function toggleLift() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("toggle-btn").innerHTML = this.responseText;
+          }
+        };
+        xhttp.open("GET", "/toggleLift", true);
+        xhttp.send();
+      }
+    </script>
+  </head>
+  <body>
+    <h1>EcoCanal</h1>
+    <div id="container">
+
+        <p><strong>Manual</strong> is Selected</p>
+
+        <button class="btn manual" onclick="setMode(1)">Manual</button>
+        <button class="btn automatic" onclick="setMode(0)">Automatic</button>
+        <br>
+
+        <button id="toggle-btn" class="btn raise-lower" onclick="toggleLift()">Raise</button>
+    </div>
+  </body>
+  <footer><p >Powered by ESP8266 deisgned to Control the EcoCanal System</p></footer>
+</html>
