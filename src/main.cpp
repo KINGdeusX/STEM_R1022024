@@ -325,11 +325,11 @@ void loop() {
 		Serial.println("System in auto Mode");
 
 		if (sensor_value == 1) {
-			Serial.println("Laser Obstructed");
+			Serial.print(" Laser Obstructed");
 			exec = 1;
 		}
 		else if (sensor_value == 0) {
-			Serial.println("Laser Clear");
+			Serial.print(" Laser Clear");
 			exec = 0;
 		}
 
@@ -340,11 +340,11 @@ void loop() {
 		}
 		else if (exec == 0) {
 			// Stand by
-			Serial.println("Stand By");
+			Serial.print(" Stand By");
 		}
 	}
 	else if (mode == 1) { // Executing Manual Mode
 		//WEBUI controlled Stuff here
-		Serial.println("System in manual Mode");
+		Serial.println("System in manual Mode Stand by");
 	}
 }
