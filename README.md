@@ -48,18 +48,38 @@ This will automatically create the project files along its dependencies
 > 
 > * Input Voltage: 9v
 > * Input Current: 1.2A
+> * Power Usage: 10.8W
 > * [Library](https://github.com/RobTillaart/DRV8825)
 
 **Laser Sensor**: DS18B20
 
 > * Input Voltage: 5v
+> * Input Current: 0.0015A
+> * Power Usage: 0.00495W
 > * [Info](https://forum.arduino.cc/t/documents-about-laser-sensor-ds18b20/1090450) Arduino Post
 > * keynotes : if the sensor detects a laser it will return a value of 0 if it does not detect a laser it will return a value of 1
 
 **Laser Emitter**: KY-008
 
 > * Input Voltage : 5v
+> * Input Current: 0.03A
+> * Power Usage: 0.15W
 > * [Datasheet](https://datasheet4u.com/datasheet-pdf/AZ-Delivery/KY-008/pdf.php?id=1415012) pdf
+
+**Microcontroller**: ESP8266
+> * Input Voltage : 9V
+> * Input Current: 0.2A
+> * Power Usage: 0.18W
+
+**Buck Converter**: XL4015
+> * Input Voltage: Range(4.5V to 38V) supplied with 22.2V x6 18650 @ 3.7V each
+> * Ouput Voltage: Range(1.25V to 35V) Set to 9V
+> * Output Current: 4.5A
+> * [Documentation](https://protosupplies.com/product/xl4015-adjustable-dc-dc-step-down-module/#:~:text=KEY%20FEATURES%20OF%20XL4015%20ADJUSTABLE%20DC-DC%20STEP%20DOWN%20MODULE&text=This%20DC-DC%20Step-Down,output%20of%20up%20to%2075W.)
+> 
+> Keynotes 
+>> * Maximum power output of up to **75W**.
+>> * *(10.8W * 4) + 0.00495W + 0.15W + 0.18W* = **43.53W** Total Concludes that the XL4015 can handle the Load
 
 ## MICROCONTROLLER
 
@@ -85,6 +105,16 @@ This will automatically create the project files along its dependencies
 
 ![wire.jpg](.media/img_0.jpeg)
 
+## WEB GRAPHICAL USER INTERFACE
+***
+1. To start open your WIFI settings on your mobile device. Look for the SSID: ***EcoCanalRemote*** with the PASSWORD: ***admin1234***
+2. Open any browser then at the search bar enter the ff: `192.168.1.1` as this will be the webgui is located
+3. Upon startup it will be set to Automatic as it is the default state.
+   
+![Automode.jpg](.media/img_1.jpeg)
+![ManualRaised.jpg](.media/img_2.jpeg)
+![ManualLowered.jpg](.media/img_3.jpeg)
+
 ## UPDATE NOTES
 
 <span style="margin: 5px; padding: 10px; background-color: gold; color: white; max-width: 60px;">**09172024**</span>
@@ -95,3 +125,11 @@ This will automatically create the project files along its dependencies
 
 > * On the documentations and diagrams it shows that the power supply Step-Down Converter was used is LM2595, But the one used is XL4015, Whats the difference? On paper XL4015 should deliver the needed power for all the devices. LM2595 can supply 3A at 150KHz While the XL4015 can deliver 5A at 180KHz [Refferences](https://www.reddit.com/r/AskElectronics/comments/u7nzyt/lm2596_vs_xl4015_demonstrably_different_one/). Considering The Nema 17 Stepper specified it can draw 1.2A per step, mentioned on the Nema 17 [Datasheet](https://grobotronics.com/stepper-motor-42byghw804.html?sl=en&srsltid=AfmBOoob1S9VRoTaBIgixzCNw4r2lPHLdatZdNhg1EAL_pg9pJvKSeLj). Testing the current inventory.
 > * Added the stepper sequence and laser sensor
+
+<span style="margin: 5px; padding: 10px; background-color: gold; color: white; max-width: 60px;">**09192024**</span>
+
+> * ***Known Bug 1*** - when you press Raise it raises the extractor but after the action has been completed it does not say Lower but pressing raise again will lower the extractor.
+> * ***Known Bug 2*** - if the system looses power in the middle of performing the extraction, it will assume that position creating misalignment in the stepper motor.
+> * Added features to select between manual and automatic, with comprehensive indicators. 
+> * Improved serial info display now verbose
+> * added the self Wifi capabilities
