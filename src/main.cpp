@@ -322,7 +322,7 @@ void loop() {
 	if (mode == 0) { // Executing Automode
 		bool sensor_value = digitalRead(sensor1); // Waits for the laser data
 
-		Serial.println("System in auto Mode");
+		Serial.println(" System in auto Mode");
 
 		if (sensor_value == 1) {
 			Serial.print(" Laser Obstructed");
