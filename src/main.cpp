@@ -3,6 +3,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
+// defined pinouts based on the wiring diagram
 #define STEPPER_0_D 5
 #define STEPPER_0_S 4
 #define STEPPER_1_D 0
@@ -13,7 +14,7 @@
 #define STEPPER_3_S 15
 #define sensor1 16
 
-// Set Wi-Fi credentials for the Access Point
+// Set Wi-Fi credentials
 const char* ssid = "EcoCanalRemote";
 const char* password = "admin1234";
 
@@ -25,54 +26,51 @@ IPAddress local_IP(192,168,1,1);
 IPAddress gateway(192,168,1,1);
 IPAddress subnet(255,255,255,0);
 
-// setDirection
-// DRV8825_CLOCK_WISE         = 0;  //  LOW
-// DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
+// Defined Stepper
+DRV8825 stepper1, stepper2, stepper3, stepper4; 
 
-DRV8825 stepper1, stepper2, stepper3, stepper4; // Defined Stepper
+int stepper_internal_delay = 10; // ---------------> 10 ms for every step
+int execution_delay = 1000; // --------------------> Set execution delay for 1 second
+int discarding_delay = 5000; // -------------------> Set discarding delay for for 5 seconds give enough time for trash to completely go away
 
-int stepper_internal_delay = 10; // 10 ms for every step
-int execution_delay = 1000;
-int discarding_delay = 5000;
+int stppr_wingL_num_steps = 300; // ---------------> Number of steps defined for the Wing left Extractor
+int stppr_WingR_num_steps = 300; // ---------------> Number of steps defined for the Wing right Extractor
+int stppr_cntrl_gate = 200; // --------------------> Control Gate number fo steps
+int stppr_trash_puller = 400; // ------------------> Trash net puller
 
-int stppr_wingL_num_steps = 300; // Number of steps defined for the Wing left Extractor
-int stppr_WingR_num_steps = 300; // Number of steps defined for the Wing right Extractor
-int stppr_cntrl_gate = 200; // Control Gate number fo steps
-int stppr_trash_puller = 400; // Trash net puller
+bool isRaised = false; // -------------------------> Raise indicator default lowered or 0
+bool mode = false; // -----------------------------> 0 Automatic 1 Manual
+bool exec = false; // -----------------------------> 0 noting happens 1 sequence begins
 
-bool isRaised = false;
-bool mode = false; // 0 Automatic 1 Manual
-bool exec = false; // 0 noting happens 1 sequence begins
-
-void wingL(const boolean direction, int steps) {
-	stepper1.begin(STEPPER_0_D, STEPPER_0_S);
-  	stepper1.setDirection(direction); // Direction
+void wingL(const boolean direction, int steps) {//-> left wing of the extractor {direction} can be set to 0 CW or 1 CCW {steps} how many steps to perform
+	stepper1.begin(STEPPER_0_D, STEPPER_0_S); //---> set stepper desgination
+  	stepper1.setDirection(direction);
 	for(int i = 0; i <= steps; i++){
-		stepper1.step(); // Execute Step
+		stepper1.step(); // -----------------------> Execute Step
 		delay(stepper_internal_delay); 
 	}
 }
-void wingR(const boolean direction, int steps) {
-	stepper2.begin(STEPPER_1_D, STEPPER_1_S);
-	stepper2.setDirection(direction); // Direction
+void wingR(const boolean direction, int steps) { //> right wing of the extractor {direction} can be set to 0 CW or 1 CCW {steps} how many steps to perform
+	stepper2.begin(STEPPER_1_D, STEPPER_1_S); //---> set stepper desgination
+	stepper2.setDirection(direction);
 	for(int i = 0; i <= steps; i++){
-		stepper2.step(); // Execute Step
+		stepper2.step(); // -----------------------> Execute Step
 		delay(stepper_internal_delay); 
 	}
 }
-void Cntrl(const boolean direction, int steps) {
-	stepper3.begin(STEPPER_2_D, STEPPER_2_S);
-	stepper3.setDirection(direction); // Direction
+void Cntrl(const boolean direction, int steps) { //> Control gate stepper {direction} can be set to 0 CW or 1 CCW {steps} how many steps to perform
+	stepper3.begin(STEPPER_2_D, STEPPER_2_S); //---> set stepper desgination
+	stepper3.setDirection(direction);
 	for(int i = 0; i <= steps; i++) {
-		stepper3.step(); // Execute Step
+		stepper3.step(); // -----------------------> Execute Step
 		delay(stepper_internal_delay); 
 	}
 }
-void Puller(const boolean direction, int steps) {
-	stepper4.begin(STEPPER_3_D, STEPPER_3_S);
-	stepper4.setDirection(direction); // Direction
+void Puller(const boolean direction, int steps) {//> trash puller stepper {direction} can be set to 0 CW or 1 CCW {steps} how many steps to perform
+	stepper4.begin(STEPPER_3_D, STEPPER_3_S); //---> set stepper desgination
+	stepper4.setDirection(direction);
 	for(int i = 0; i <= steps; i++){
-		stepper4.step(); // Execute Step
+		stepper4.step(); // -----------------------> Execute Step
 		delay(stepper_internal_delay);
 	}
 }
@@ -82,12 +80,12 @@ void lift_sequencer(){
 	server.send(200, "text/plain", "Executing Please Wait");
 
 	Serial.println("Raising Control Gate");
-	Cntrl(0, stppr_cntrl_gate); // Raise the control gate
+	Cntrl(0, stppr_cntrl_gate); // ----------------> Raise the control gate
 	Serial.println("Control Gate Raised");
 	delay(execution_delay);
 
 	Serial.println("Rolling Trash");
-	Puller(0, stppr_trash_puller); // Rolls up the trash
+	Puller(0, stppr_trash_puller); // -------------> Rolls up the trash
 	Serial.println("Trash Rolled");
 	delay(execution_delay);
 	
@@ -96,7 +94,7 @@ void lift_sequencer(){
 	Serial.println("Extractor Raised");
 	delay(execution_delay);
 
-	delay(discarding_delay); // delay for discarding the trash
+	delay(discarding_delay); // -------------------> delay for discarding the trash
 	server.send(200, "text/plain", "Lower");
 }
 
@@ -108,20 +106,21 @@ void lower_sequencer() {
 	delay(execution_delay);
 	
 	Serial.println("Unrolling Trash");
-	Puller(1, stppr_trash_puller); // Rolls up the trash
+	Puller(1, stppr_trash_puller); // -------------> Rolls up the trash
 	Serial.println("Trash unrolled");
 	delay(execution_delay);
 
 	Serial.println("Lowering Control Gate");
-	Cntrl(1, stppr_cntrl_gate); // Raise the control gate
+	Cntrl(1, stppr_cntrl_gate); // ----------------> Raise the control gate
 	Serial.println("Control Gate Lowered");
 	delay(execution_delay);
 
 	Serial.println("Execution Finished");
-	delay(5000); // Leveling Delay
+	delay(5000); // -------------------------------> Leveling Delay
 	server.send(200, "text/plain", "Raise");
 }
 
+// Web based Graphical unser interface Written in HTML
 String generateHTML() {
   	String html = R"=====(
 		<!DOCTYPE html>
@@ -262,11 +261,11 @@ void handleSetMode() {
 	if (server.hasArg("mode")) {
 		String modeValue = server.arg("mode");
 		if (modeValue == "1") {
-			mode = 1;  // Set to Manual
+			mode = 1;  // -----------------------> Set to Manual
 			Serial.println("Mode set to Manual.");
 		} 
 		else if (modeValue == "0") {
-			mode = 0;  // Set to Automatic
+			mode = 0;  // -----------------------> Set to Automatic
 			Serial.println("Mode set to Automatic.");
 		}
 		server.send(200, "text/plain", "Mode changed");
@@ -276,22 +275,24 @@ void handleSetMode() {
 // Handle toggle between Raise and Lower
 void handleToggleLift() {
 	if (isRaised) {
-		lower_sequencer();  // Call lower_sequencer function
+		lower_sequencer();  // -------------------> Call lower_sequencer function
 		server.send(200, "text/plain", "Raise");
 		isRaised = false;
 	} else {
-		lift_sequencer();  // Call lift_sequencer function
+		lift_sequencer();  // --------------------> Call lift_sequencer function
 		server.send(200, "text/plain", "Lower");
 		isRaised = true;
 	}
 }
 
 void setup() {
-	// Code Here
+	// Set Serial monitor baud rate to 115200
 	Serial.begin(115200);
 	
+	// Set pimode for laser sensor
 	pinMode(sensor1, INPUT);
-	// Set ESP8266 as an access point and configure a static IP
+	
+	// Set ESP8266 as an active stand along WIFI
 	WiFi.softAPConfig(local_IP, gateway, subnet);
 	WiFi.softAP(ssid, password);
 
@@ -317,17 +318,19 @@ void setup() {
 }
  
 void loop() {
-	//Code Here
+	// Handle Client Connections
 	server.handleClient();
-	if (mode == 0) { // Executing Automode
-		bool sensor_value = digitalRead(sensor1); // Waits for the laser data
+	if (mode == 0) { // ---------------------------> Executing Automode
+		bool sensor_value = digitalRead(sensor1);//> Waits for the laser data
 
 		Serial.println(" System in auto Mode");
 
+		// if laser is obstructed
 		if (sensor_value == 1) {
 			Serial.print(" Laser Obstructed");
 			exec = 1;
 		}
+		// if laser is clear
 		else if (sensor_value == 0) {
 			Serial.print(" Laser Clear");
 			exec = 0;
@@ -335,15 +338,15 @@ void loop() {
 
 		if (exec == 1) {
 			// Execution
-			lift_sequencer(); // Activates the raise sequence using the custom function
-			lower_sequencer(); // Activiates the lower sequence using the custom function
+			lift_sequencer(); // ------------------> Activates the raise sequence using the custom function
+			lower_sequencer(); // -----------------> Activiates the lower sequence using the custom function
 		}
 		else if (exec == 0) {
 			// Stand by
 			Serial.print(" Stand By");
 		}
 	}
-	else if (mode == 1) { // Executing Manual Mode
+	else if (mode == 1) { // ----------------------> Executing Manual Mode
 		//WEBUI controlled Stuff here
 		Serial.println("System in manual Mode Stand by");
 	}
