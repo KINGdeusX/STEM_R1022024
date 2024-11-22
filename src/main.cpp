@@ -33,8 +33,8 @@ int stepper_internal_delay = 10; // ---------------> 10 ms for every step
 int execution_delay = 1000; // --------------------> Set execution delay for 1 second
 int discarding_delay = 5000; // -------------------> Set discarding delay for for 5 seconds give enough time for trash to completely go away
 
-int stppr_wingL_num_steps = 300; // ---------------> Number of steps defined for the Wing left Extractor
-int stppr_WingR_num_steps = 300; // ---------------> Number of steps defined for the Wing right Extractor
+int stppr_wingL_num_steps = 4000; // ---------------> Number of steps defined for the Wing left Extractor
+int stppr_WingR_num_steps = 4000; // ---------------> Number of steps defined for the Wing right Extractor
 int stppr_cntrl_gate = 200; // --------------------> Control Gate number fo steps
 int stppr_trash_puller = 400; // ------------------> Trash net puller
 
@@ -85,7 +85,7 @@ void lift_sequencer(){
 	delay(execution_delay);
 
 	Serial.println("Rolling Trash");
-	Puller(0, stppr_trash_puller); // -------------> Rolls up the trash
+	Puller(1, stppr_trash_puller); // -------------> Rolls up the trash
 	Serial.println("Trash Rolled");
 	delay(execution_delay);
 	
@@ -106,7 +106,7 @@ void lower_sequencer() {
 	delay(execution_delay);
 	
 	Serial.println("Unrolling Trash");
-	Puller(1, stppr_trash_puller); // -------------> Rolls up the trash
+	Puller(0, stppr_trash_puller); // -------------> Rolls up the trash
 	Serial.println("Trash unrolled");
 	delay(execution_delay);
 
